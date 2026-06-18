@@ -35,27 +35,27 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#if defined (__ICCARM__) || defined (__ARMCC_VERSION)
-#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
-#elif defined(__GNUC__)
-   /* With GCC, small printf (option LD Linker->Libraries->Small printf
-   set to 'Yes') calls __io_putchar() */
-#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
-#endif /* __ICCARM__ || __ARMCC_VERSION */
+// #if defined (__ICCARM__) || defined (__ARMCC_VERSION)
+// #define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+// #elif defined(__GNUC__)
+//    /* With GCC, small printf (option LD Linker->Libraries->Small printf
+//    set to 'Yes') calls __io_putchar() */
+// #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+// #endif /* __ICCARM__ || __ARMCC_VERSION */
 
-/**
-  * @brief  Retargets the C library printf function to the USART.
-  * @param  None
-  * @retval None
-  */
-PUTCHAR_PROTOTYPE
-{
-  /* Place your implementation of fputc here */
-  /* e.g. write a character to the USART2 and Loop until the end of transmission */
-  HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xFFFF);
+// /**
+//   * @brief  Retargets the C library printf function to the USART.
+//   * @param  None
+//   * @retval None
+//   */
+// PUTCHAR_PROTOTYPE
+// {
+//   /* Place your implementation of fputc here */
+//   /* e.g. write a character to the USART2 and Loop until the end of transmission */
+//   HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xFFFF);
 
-  return ch;
-}
+//   return ch;
+// }
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -115,59 +115,18 @@ int main(void)
   
   board_led_init();
   
-  uint32_t tick,tick_now;
-  tick = HAL_GetTick() + 200;
-  tick_now = HAL_GetTick();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
-		tick_now = HAL_GetTick();
-    if(board_button_getstate())
-    {
-      if(tick_now >= tick)
-      {
-        tick = tick_now + 200;
-        board_led_toggle();
-      }
-    }
-    else
-    {
-      if(tick_now >= tick)
-      {
-        tick = tick_now + 50;
-        
-        RTC_DateTypeDef sdatestructureget;
-        RTC_TimeTypeDef stimestructureget;
-        uint8_t text[30];
-        static uint8_t Seconds_o;
-        
-        /* Get the RTC current Time */
-        HAL_RTC_GetTime(&hrtc, &stimestructureget, RTC_FORMAT_BIN);
-        /* Get the RTC current Date */
-        HAL_RTC_GetDate(&hrtc, &sdatestructureget, RTC_FORMAT_BIN);
-        
-        if(Seconds_o != stimestructureget.Seconds)
-        {
-          Seconds_o = stimestructureget.Seconds;
-          
-          printf("20%02d.%02d.%02d %02d:%02d %02d\r\n",sdatestructureget.Year,sdatestructureget.Month,sdatestructureget.Date, \
-                                            stimestructureget.Hours,stimestructureget.Minutes,stimestructureget.Seconds);
-          board_led_set(1);
-        }
-        else
-        {
-          board_led_set(0);
-        }
-      }
-    }
-    /* USER CODE END WHILE */
-
-    /* USER CODE BEGIN 3 */
+  while (1){
+    printf("hello world\n");
+    board_led_set(1);
+    HAL_Delay(500);
+    board_led_set(0);
+    HAL_Delay(500);
+    /* USER CODE END 3 */
   }
-  /* USER CODE END 3 */
 }
 
 /**
