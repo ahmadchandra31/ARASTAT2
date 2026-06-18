@@ -36,11 +36,11 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 #if defined (__ICCARM__) || defined (__ARMCC_VERSION)
-#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+  #define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
 #elif defined(__GNUC__)
    /* With GCC, small printf (option LD Linker->Libraries->Small printf
    set to 'Yes') calls __io_putchar() */
-#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+  #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
 #endif /* __ICCARM__ || __ARMCC_VERSION */
 
 /**
@@ -115,54 +115,17 @@ int main(void)
   
   board_led_init();
   
-  uint32_t tick,tick_now;
-  tick = HAL_GetTick() + 200;
-  tick_now = HAL_GetTick();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		tick_now = HAL_GetTick();
-    if(board_button_getstate())
-    {
-      if(tick_now >= tick)
-      {
-        tick = tick_now + 200;
-        board_led_toggle();
-      }
-    }
-    else
-    {
-      if(tick_now >= tick)
-      {
-        tick = tick_now + 50;
-        
-        RTC_DateTypeDef sdatestructureget;
-        RTC_TimeTypeDef stimestructureget;
-        uint8_t text[30];
-        static uint8_t Seconds_o;
-        
-        /* Get the RTC current Time */
-        HAL_RTC_GetTime(&hrtc, &stimestructureget, RTC_FORMAT_BIN);
-        /* Get the RTC current Date */
-        HAL_RTC_GetDate(&hrtc, &sdatestructureget, RTC_FORMAT_BIN);
-        
-        if(Seconds_o != stimestructureget.Seconds)
-        {
-          Seconds_o = stimestructureget.Seconds;
-          
-          printf("20%02d.%02d.%02d %02d:%02d %02d\r\n",sdatestructureget.Year,sdatestructureget.Month,sdatestructureget.Date, \
-                                            stimestructureget.Hours,stimestructureget.Minutes,stimestructureget.Seconds);
-          board_led_set(1);
-        }
-        else
-        {
-          board_led_set(0);
-        }
-      }
-    }
+		printf("Hello world\n");
+    board_led_set(1);
+    HAL_Delay(100);
+    board_led_set(0);
+    HAL_Delay(100);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
